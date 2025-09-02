@@ -1,8 +1,8 @@
 import type { ReactNode } from "react"
 import { useEffect } from "react"
 import { useAppSelector } from "@/store"
-import { Header } from "./Header"
-import { StatusBar } from "./StatusBar"
+import { Header } from "./header"
+import { StatusBar } from "./status-bar"
 
 interface AppLayoutProps {
   children: ReactNode

@@ -1,4 +1,4 @@
-export type { GameStatus } from "./gameSlice"
+export type { GameStatus } from "./game-slice"
 export {
   endGame,
   incrementTurn,
@@ -10,14 +10,14 @@ export {
   setPlayerHealth,
   startGame,
   updateScore,
-} from "./gameSlice"
+} from "./game-slice"
 export type { AppDispatch, RootState } from "./store"
 export { store, useAppDispatch, useAppSelector } from "./store"
-export type { Theme } from "./uiSlice"
+export type { Theme } from "./ui-slice"
 export {
   setModalOpen,
   setSidebarOpen,
   setTheme,
   toggleSidebar,
   toggleTheme,
-} from "./uiSlice"
+} from "./ui-slice"
