@@ -1,19 +1,16 @@
-import { useAppDispatch, useAppSelector, toggleTheme } from '@/store'
+import { toggleTheme, useAppDispatch, useAppSelector } from "@/store"
 
 export function Header() {
   const dispatch = useAppDispatch()
   const theme = useAppSelector((state) => state.ui.theme)
-  const isDark = theme === 'dark'
+  const isDark = theme === "dark"
 
   const handleToggleTheme = () => {
     dispatch(toggleTheme())
   }
 
   return (
-    <header
-      className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4"
-      role="banner"
-    >
+    <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-xl font-semibold text-gray-900 dark:text-white">
@@ -21,12 +18,17 @@ export function Header() {
           </h1>
         </div>
 
-        <nav className="flex items-center space-x-4" role="navigation" aria-label="メインナビゲーション">
+        <nav
+          className="flex items-center space-x-4"
+          aria-label="メインナビゲーション"
+        >
           <button
             type="button"
             onClick={handleToggleTheme}
             className="p-2 rounded-md bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
-            aria-label={isDark ? 'ライトモードに切り替え' : 'ダークモードに切り替え'}
+            aria-label={
+              isDark ? "ライトモードに切り替え" : "ダークモードに切り替え"
+            }
             aria-pressed={isDark}
           >
             {isDark ? (

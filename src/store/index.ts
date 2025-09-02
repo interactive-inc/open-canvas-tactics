@@ -1,25 +1,23 @@
-export { store, useAppDispatch, useAppSelector } from './store'
-export type { RootState, AppDispatch } from './store'
-
+export type { GameStatus } from "./gameSlice"
 export {
-  setTheme,
-  toggleTheme,
-  setSidebarOpen,
-  toggleSidebar,
-  setModalOpen,
-} from './uiSlice'
-export type { Theme } from './uiSlice'
-
-export {
-  setGameStatus,
-  startGame,
+  endGame,
+  incrementTurn,
+  nextLevel,
   pauseGame,
   resumeGame,
-  endGame,
-  nextLevel,
-  updateScore,
-  setPlayerHealth,
-  incrementTurn,
   selectUnit,
-} from './gameSlice'
-export type { GameStatus } from './gameSlice'
+  setGameStatus,
+  setPlayerHealth,
+  startGame,
+  updateScore,
+} from "./gameSlice"
+export type { AppDispatch, RootState } from "./store"
+export { store, useAppDispatch, useAppSelector } from "./store"
+export type { Theme } from "./uiSlice"
+export {
+  setModalOpen,
+  setSidebarOpen,
+  setTheme,
+  toggleSidebar,
+  toggleTheme,
+} from "./uiSlice"

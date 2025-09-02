@@ -1,6 +1,7 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import type { PayloadAction } from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit"
 
-export type GameStatus = 'idle' | 'loading' | 'playing' | 'paused' | 'gameOver'
+export type GameStatus = "idle" | "loading" | "playing" | "paused" | "gameOver"
 
 interface GameState {
   status: GameStatus
@@ -13,7 +14,7 @@ interface GameState {
 }
 
 const initialState: GameState = {
-  status: 'idle',
+  status: "idle",
   currentLevel: 1,
   score: 0,
   playerHealth: 100,
@@ -23,30 +24,30 @@ const initialState: GameState = {
 }
 
 export const gameSlice = createSlice({
-  name: 'game',
+  name: "game",
   initialState,
   reducers: {
     setGameStatus: (state, action: PayloadAction<GameStatus>) => {
       state.status = action.payload
     },
     startGame: (state) => {
-      state.status = 'playing'
+      state.status = "playing"
       state.score = 0
       state.playerHealth = state.playerMaxHealth
       state.turn = 1
     },
     pauseGame: (state) => {
-      if (state.status === 'playing') {
-        state.status = 'paused'
+      if (state.status === "playing") {
+        state.status = "paused"
       }
     },
     resumeGame: (state) => {
-      if (state.status === 'paused') {
-        state.status = 'playing'
+      if (state.status === "paused") {
+        state.status = "playing"
       }
     },
     endGame: (state) => {
-      state.status = 'gameOver'
+      state.status = "gameOver"
     },
     nextLevel: (state) => {
       state.currentLevel += 1
@@ -55,7 +56,10 @@ export const gameSlice = createSlice({
       state.score += action.payload
     },
     setPlayerHealth: (state, action: PayloadAction<number>) => {
-      state.playerHealth = Math.max(0, Math.min(action.payload, state.playerMaxHealth))
+      state.playerHealth = Math.max(
+        0,
+        Math.min(action.payload, state.playerMaxHealth),
+      )
     },
     incrementTurn: (state) => {
       state.turn += 1
