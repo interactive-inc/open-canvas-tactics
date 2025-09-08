@@ -12,14 +12,12 @@ export function InputController(props: Props) {
   useEffect(() => {
     if (!props.engine) return
 
-    console.log("Setting up input controls")
-
     // マウスホイールでズーム機能
     props.engine.input.pointers.on("wheel", (wheelEvent) => {
       const camera = props.engine?.currentScene.camera
       const zoomSpeed = 0.05
       const minZoom = 1.0
-      const maxZoom = 3.0
+      const maxZoom = 4.0
 
       // ホイールの方向に応じてズームイン/アウト
       if (!camera) return
@@ -30,8 +28,6 @@ export function InputController(props: Props) {
         // ズームアウト
         camera.zoom = Math.max(camera.zoom - zoomSpeed, minZoom)
       }
-
-      console.log("Camera zoom:", camera.zoom)
     })
 
     // マウスドラッグでカメラ移動機能
@@ -75,10 +71,6 @@ export function InputController(props: Props) {
     props.engine.input.pointers.on("up", () => {
       isDragging = false
     })
-
-    console.log(
-      "Input controls enabled: wheel zoom, click-drag camera movement",
-    )
   }, [props.engine])
 
   return null // このコンポーネントは何も描画しない

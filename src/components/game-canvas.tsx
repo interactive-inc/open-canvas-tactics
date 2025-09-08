@@ -14,7 +14,6 @@ export function GameCanvas() {
 
   const handleEngineReady = useCallback((readyEngine: Engine) => {
     setEngine(readyEngine)
-    console.log("Engine ready and passed to controllers")
   }, [])
 
   return (

@@ -38,6 +38,13 @@
       "offsetx": 0,
       "offsety": 0,
       "opacity": 1,
+      "properties": [
+        {
+          "name": "zindex",
+          "type": "float",
+          "value": 0
+        }
+      ],
       "type": "tilelayer",
       "visible": true,
       "width": 30,
