@@ -6,7 +6,3 @@ dist-ssr
 count.txt
 .env
 .nitro
-.tanstack
-.github/
-.claude/
-CLAUDE.md
