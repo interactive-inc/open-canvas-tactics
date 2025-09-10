@@ -10,7 +10,9 @@ Vite + React + TypeScript + Redux Toolkit + Excalibur.js を使用したSRPGベ�
 - **Redux Toolkit** - 状態管理
 - **TailwindCSS** - スタイリング
 - **Excalibur.js** - ゲームエンジン
+- **@excaliburjs/plugin-tiled** - Tiledマップサポート
 - **Biome** - リンティング・フォーマッティング
+- **Bun** - パッケージマネージャー・ランタイム
 
 ## セットアップ手順
 
