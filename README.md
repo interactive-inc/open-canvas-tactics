@@ -42,15 +42,28 @@ bun run dev
 
 ```
 src/
+├── engine/         # ゲームエンジン層（Excalibur.js）
+├── excalibur/      # Excalibur.js統合
 ├── features/       # Redux Toolkitのスライス
 ├── services/       # RTK Query API定義
-├── components/     # Reactコンポーネント
-│   ├── game/      # ゲーム関連
-│   └── ui/        # UI部品
-├── types/         # 型定義
-├── utils/         # ユーティリティ
-└── constants/     # 定数
+├── ui/             # Reactコンポーネント
+├── hooks/          # カスタムフック
+├── utils/          # ユーティリティ
+├── constants/      # 定数
+└── assets/         # ゲームアセット
+
+public/
+├── tileset/        # Tiledタイルセット（*.tsxはXML形式）
+├── map/            # Tiledマップデータ
+└── character/      # キャラクター画像
 ```
+
+## Tiledファイルについて
+
+- `public/tileset/*.tsx` - Tiled Map EditorのXML形式タイルセット定義（TypeScriptファイルではありません）
+- `public/map/*.json` - Tiledマップデータ
+- これらのファイルはTiled Map Editorでのみ編集してください
+- 詳細は `.github/instructions/tiled-files.instructions.md` を参照
 
 ## 実行コマンド一覧
 

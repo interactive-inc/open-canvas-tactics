@@ -1,8 +1,8 @@
 import type { Engine } from "excalibur"
 import { useCallback, useRef, useState } from "react"
-import { CameraController } from "./game/camera-controller"
-import { GameEngine } from "./game/game-engine"
-import { InputController } from "./game/input-controller"
+import { CameraController } from "@/engine/systems/camera-system"
+import { GameEngine } from "@/excalibur/game"
+import { InputController } from "@/excalibur/input/input-handler"
 
 /**
  * ゲームキャンバスのメインコンポーネント

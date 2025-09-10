@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit"
 import type { TypedUseSelectorHook } from "react-redux"
 import { useDispatch, useSelector } from "react-redux"
-import gameReducer from "./game-slice"
-import uiReducer from "./ui-slice"
+import gameReducer from "./game/game-slice"
+import uiReducer from "./ui/ui-slice"
 
 export const store = configureStore({
   reducer: {

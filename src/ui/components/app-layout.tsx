@@ -1,15 +1,17 @@
 import type { ReactNode } from "react"
 import { useEffect } from "react"
-import { useAppSelector } from "@/store"
+import { useAppSelector } from "@/features"
+import { StatusBar } from "../hud/status-bar"
 import { Header } from "./header"
-import { StatusBar } from "./status-bar"
 
 interface AppLayoutProps {
   children: ReactNode
 }
 
 export function AppLayout({ children }: AppLayoutProps) {
-  const theme = useAppSelector((state) => state.ui.theme)
+  const theme = useAppSelector(
+    (state: import("@/features").RootState) => state.ui.theme,
+  )
 
   useEffect(() => {
     if (theme === "dark") {

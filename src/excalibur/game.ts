@@ -50,7 +50,7 @@ export function GameEngine(props: Props) {
       ],
     })
 
-    // ローダーを作成
+    // ローダーを作成（ローディング画面を表示）
     const loader = new Loader()
     loader.addResource(tiledMapResource)
 

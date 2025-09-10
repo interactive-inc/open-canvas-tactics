@@ -2,8 +2,8 @@ import { createRouter, RouterProvider } from "@tanstack/react-router"
 import React from "react"
 import { createRoot } from "react-dom/client"
 import { Provider } from "react-redux"
+import { store } from "./features/store"
 import { routeTree } from "./route-tree.gen"
-import { store } from "./store"
 import "./index.css"
 
 const router = createRouter({ routeTree })

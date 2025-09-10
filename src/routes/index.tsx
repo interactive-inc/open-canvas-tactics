@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router"
-import { GameCanvas } from "../components/game-canvas"
+import { GameCanvas } from "../ui/components/game-canvas"
 
 export const Route = createFileRoute("/")({
   component: () => (
