@@ -3,7 +3,6 @@
     "defaultMode": "default"
   },
   "enableAllProjectMcpServers": true,
-  "outputStyle": "ts",
   "hooks": {
     "PreToolUse": [
       {
