@@ -10,8 +10,7 @@
     "test": "bun test",
     "check": "tsgo",
     "format": "biome check . --fix --unsafe",
-    "lint": "biome check .",
-    "typecheck": "tsc --noEmit"
+    "lint": "biome check ."
   },
   "dependencies": {
     "@excaliburjs/plugin-tiled": "^0.30.2",
