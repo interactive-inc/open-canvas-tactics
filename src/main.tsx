@@ -1,14 +1,15 @@
 import { createRouter, RouterProvider } from "@tanstack/react-router"
-import { Color, DisplayMode, Engine } from "excalibur"
+import { Color, DisplayMode, Engine, Loader } from "excalibur"
 import React from "react"
 import { createRoot } from "react-dom/client"
 import { Provider } from "react-redux"
+import { resources } from "@/resources"
+import { MainScene } from "@/scenes/main"
 import { EngineProvider } from "./components/engine-provider"
 import { store } from "./features/store"
 import { routeTree } from "./route-tree.gen"
+
 import "./index.css"
-import { loader } from "@/resources"
-import { MainScene } from "@/scenes/main"
 
 const canvas = document.querySelector<HTMLCanvasElement>("#game-canvas")
 
@@ -27,6 +28,12 @@ const engine = new Engine({
     [MainScene.name]: MainScene,
   },
 })
+
+const loader = new Loader({
+  loadables: Object.values(resources),
+})
+
+loader.suppressPlayButton = true
 
 // ゲームを開始
 await engine.start(loader)

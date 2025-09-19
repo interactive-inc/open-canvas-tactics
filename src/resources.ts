@@ -1,5 +1,5 @@
 import { TiledResource } from "@excaliburjs/plugin-tiled"
-import { ImageSource, Loader } from "excalibur"
+import { ImageSource } from "excalibur"
 
 export const resources = {
   characterImage: new ImageSource(
@@ -12,10 +12,4 @@ export const resources = {
       { path: "spritesheet.png", output: "/tileset/spritesheet.png" },
     ],
   }),
-}
-
-export const loader = new Loader()
-
-for (const resource of Object.values(resources)) {
-  loader.addResource(resource)
 }

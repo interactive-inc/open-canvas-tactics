@@ -1,9 +1,58 @@
-import { Actor, Animation, Scene, vec } from "excalibur"
+import { Scene, vec } from "excalibur"
+import { UnitActor } from "@/actors/unit-actor"
+import { getInitialPosition, ISOMETRIC } from "@/constants/isometric"
 import { resources } from "@/resources"
-import { characterSpriteSheet } from "@/sprite-sheets/character-sprite-sheet"
 
 export class MainScene extends Scene {
   static name = "main" as const
+
+  unit: UnitActor | null = null
+
+  moveUnit(x: number, y: number): Promise<void> {
+    if (!this.unit) {
+      console.warn("Unit not found in scene")
+      return Promise.resolve()
+    }
+    console.log(`Moving unit to (${x}, ${y})`)
+    return this.unit.moveToPosition(x, y)
+  }
+
+  moveUnitByGrid(gridX: number, gridY: number): Promise<void> {
+    if (!this.unit) {
+      console.warn("Unit not found in scene")
+      return Promise.resolve()
+    }
+    const currentPos = this.unit.pos
+    const newX = currentPos.x + gridX * ISOMETRIC.GRID_MOVE_X
+    const newY = currentPos.y + gridY * ISOMETRIC.GRID_MOVE_Y
+    return this.moveUnit(newX, newY)
+  }
+
+  moveUnitToRight(): Promise<void> {
+    // アイソメトリック座標で右下に1グリッド移動
+    return this.moveUnitByGrid(1, 1)
+  }
+
+  moveUnitToInitialPosition(): Promise<void> {
+    const initialPos = getInitialPosition()
+    return this.moveUnit(initialPos.x, initialPos.y)
+  }
+
+  attackWithUnit(): void {
+    if (!this.unit) {
+      console.warn("Unit not found in scene")
+      return
+    }
+    this.unit.attack()
+  }
+
+  makeUnitWait(): void {
+    if (!this.unit) {
+      console.warn("Unit not found in scene")
+      return
+    }
+    this.unit.wait()
+  }
 
   onInitialize(): void {
     // マウスホイールでズーム機能
@@ -76,33 +125,9 @@ export class MainScene extends Scene {
     this.engine.currentScene.camera.pos.y = mapPixelHeight * 2
     this.engine.currentScene.camera.zoom = 1.5
 
-    // アイソメトリックマップの中央座標を計算
-    const mapGridX = 80
-    const mapGridY = 160
-
-    const screenX = -(mapGridX - mapGridY) - 32
-    const screenY = mapGridX + mapGridY - 62 + 12
-
-    // キャラクターアクターを作成
-    const character = new Actor({
-      pos: vec(screenX, screenY),
-      z: 1000,
-    })
-
-    character.scale = vec(0.1875, 0.1875)
-
-    // 歩行アニメーションを作成
-    const walkAnimation = Animation.fromSpriteSheet(
-      characterSpriteSheet,
-      [0, 1, 2, 3, 4, 5],
-      100,
-    )
-
-    // アニメーションをキャラクターに設定
-    character.graphics.use(walkAnimation)
-
-    // キャラクターをシーンに追加
-    this.engine.currentScene.add(character)
+    // UnitActorを作成してシーンに追加
+    this.unit = new UnitActor()
+    this.add(this.unit)
 
     // TiledResourceを最後に追加
     resources.tiledMapResource.addToScene(this.engine.currentScene, {
