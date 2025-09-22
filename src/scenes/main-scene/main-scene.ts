@@ -6,55 +6,9 @@ import { resources } from "@/resources"
 export class MainScene extends Scene {
   static name = "main" as const
 
-  unit: UnitActor | null = null
+  public unit: UnitActor | null = null
 
-  moveUnit(x: number, y: number): Promise<void> {
-    if (!this.unit) {
-      console.warn("Unit not found in scene")
-      return Promise.resolve()
-    }
-    console.log(`Moving unit to (${x}, ${y})`)
-    return this.unit.moveToPosition(x, y)
-  }
-
-  moveUnitByGrid(gridX: number, gridY: number): Promise<void> {
-    if (!this.unit) {
-      console.warn("Unit not found in scene")
-      return Promise.resolve()
-    }
-    const currentPos = this.unit.pos
-    const newX = currentPos.x + gridX * ISOMETRIC.GRID_MOVE_X
-    const newY = currentPos.y + gridY * ISOMETRIC.GRID_MOVE_Y
-    return this.moveUnit(newX, newY)
-  }
-
-  moveUnitToRight(): Promise<void> {
-    // アイソメトリック座標で右下に1グリッド移動
-    return this.moveUnitByGrid(1, 1)
-  }
-
-  moveUnitToInitialPosition(): Promise<void> {
-    const initialPos = getInitialPosition()
-    return this.moveUnit(initialPos.x, initialPos.y)
-  }
-
-  attackWithUnit(): void {
-    if (!this.unit) {
-      console.warn("Unit not found in scene")
-      return
-    }
-    this.unit.attack()
-  }
-
-  makeUnitWait(): void {
-    if (!this.unit) {
-      console.warn("Unit not found in scene")
-      return
-    }
-    this.unit.wait()
-  }
-
-  onInitialize(): void {
+  override onInitialize(): void {
     // マウスホイールでズーム機能
     this.engine.input.pointers.on("wheel", (wheelEvent) => {
       const camera = this.engine.currentScene.camera
@@ -127,11 +81,58 @@ export class MainScene extends Scene {
 
     // UnitActorを作成してシーンに追加
     this.unit = new UnitActor()
+
     this.add(this.unit)
 
     // TiledResourceを最後に追加
     resources.tiledMapResource.addToScene(this.engine.currentScene, {
       pos: vec(0, 0),
     })
+  }
+
+  public moveUnit(x: number, y: number): Promise<void> {
+    if (!this.unit) {
+      console.warn("Unit not found in scene")
+      return Promise.resolve()
+    }
+    console.log(`Moving unit to (${x}, ${y})`)
+    return this.unit.moveToPosition(x, y)
+  }
+
+  public moveUnitByGrid(gridX: number, gridY: number): Promise<void> {
+    if (!this.unit) {
+      console.warn("Unit not found in scene")
+      return Promise.resolve()
+    }
+    const currentPos = this.unit.pos
+    const newX = currentPos.x + gridX * ISOMETRIC.GRID_MOVE_X
+    const newY = currentPos.y + gridY * ISOMETRIC.GRID_MOVE_Y
+    return this.moveUnit(newX, newY)
+  }
+
+  public moveUnitToRight(): Promise<void> {
+    // アイソメトリック座標で右下に1グリッド移動
+    return this.moveUnitByGrid(1, 1)
+  }
+
+  public moveUnitToInitialPosition(): Promise<void> {
+    const initialPos = getInitialPosition()
+    return this.moveUnit(initialPos.x, initialPos.y)
+  }
+
+  public attackWithUnit(): void {
+    if (!this.unit) {
+      console.warn("Unit not found in scene")
+      return
+    }
+    this.unit.attack()
+  }
+
+  public makeUnitWait(): void {
+    if (!this.unit) {
+      console.warn("Unit not found in scene")
+      return
+    }
+    this.unit.wait()
   }
 }

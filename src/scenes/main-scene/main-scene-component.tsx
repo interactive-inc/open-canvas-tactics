@@ -1,9 +1,10 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import type { MainScene } from "@/scenes/main"
+import type { MainScene } from "@/scenes/main-scene/main-scene"
 
 type Props = {
   scene: MainScene
+  onGoToScene(sceneName: string): void
 }
 
 export function MainSceneComponent(props: Props) {
@@ -21,6 +22,10 @@ export function MainSceneComponent(props: Props) {
 
   const onCancel = () => {
     props.scene.moveUnitToInitialPosition()
+  }
+
+  const onSettings = () => {
+    props.onGoToScene("settings")
   }
 
   return (
@@ -83,7 +88,9 @@ export function MainSceneComponent(props: Props) {
           <div className="flex items-center justify-between">
             <div className="flex space-x-2">
               <Button>ターン終了</Button>
-              <Button variant="secondary">メニュー</Button>
+              <Button variant="secondary" onClick={onSettings}>
+                設定
+              </Button>
             </div>
             <div className="text-lg font-semibold">ターン: 1</div>
           </div>

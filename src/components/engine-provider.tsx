@@ -3,12 +3,12 @@ import { EngineContext } from "@/contexts/engine-context"
 
 type Props = {
   children: React.ReactNode
-  game: Engine
+  engine: Engine
 }
 
 export function EngineProvider(props: Props) {
   return (
-    <EngineContext.Provider value={props.game}>
+    <EngineContext.Provider value={props.engine}>
       {props.children}
     </EngineContext.Provider>
   )
