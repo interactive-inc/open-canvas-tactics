@@ -1,18 +1,36 @@
 import { createFileRoute } from "@tanstack/react-router"
-import { GameCanvas } from "../ui/components/game-canvas"
+import { useContext, useState } from "react"
+import { EngineContext } from "@/contexts/engine-context"
+import { MainScene } from "@/scenes/main-scene/main-scene"
+import { MainSceneComponent } from "@/scenes/main-scene/main-scene-component"
+import { SettingsScene } from "@/scenes/settings-scene/settings-scene"
+import { SettingsSceneComponent } from "@/scenes/settings-scene/settings-scene-component"
 
 export const Route = createFileRoute("/")({
-  component: () => (
-    <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-gray-100 dark:bg-gray-900">
-      <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-          Hello SRPG
-        </h1>
-        <p className="text-lg text-gray-600 dark:text-gray-300">
-          Vite + React + TypeScript + Redux Toolkit + Excalibur.js
-        </p>
-      </div>
-      <GameCanvas />
-    </div>
-  ),
+  component: Component,
 })
+
+function Component() {
+  const engine = useContext(EngineContext)
+
+  const scene = engine.currentScene
+
+  const [, setSceneName] = useState(engine.currentSceneName)
+
+  const onGoToScene = async (sceneName: string) => {
+    await engine.goToScene(sceneName)
+    setSceneName(sceneName)
+  }
+
+  // シーンごとにコンポーネントを切り替え
+  if (scene instanceof MainScene) {
+    return <MainSceneComponent scene={scene} onGoToScene={onGoToScene} />
+  }
+
+  if (scene instanceof SettingsScene) {
+    return <SettingsSceneComponent scene={scene} onGoToScene={onGoToScene} />
+  }
+
+  // デフォルトの表示
+  return <div>{"No scene loaded"}</div>
+}

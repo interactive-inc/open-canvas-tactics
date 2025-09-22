@@ -15,5 +15,3 @@ export const srpgApi = createApi({
   tagTypes: ["Unit", "Battle", "Save", "Campaign"],
   endpoints: () => ({}),
 })
-
-export const {} = srpgApi

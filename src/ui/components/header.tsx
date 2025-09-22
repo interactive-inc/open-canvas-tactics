@@ -2,9 +2,7 @@ import { toggleTheme, useAppDispatch, useAppSelector } from "@/features"
 
 export function Header() {
   const dispatch = useAppDispatch()
-  const theme = useAppSelector(
-    (state: import("@/features").RootState) => state.ui.theme,
-  )
+  const theme = useAppSelector((state) => state.ui.theme)
   const isDark = theme === "dark"
 
   const handleToggleTheme = () => {

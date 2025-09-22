@@ -9,9 +9,7 @@ interface AppLayoutProps {
 }
 
 export function AppLayout({ children }: AppLayoutProps) {
-  const theme = useAppSelector(
-    (state: import("@/features").RootState) => state.ui.theme,
-  )
+  const theme = useAppSelector((state) => state.ui.theme)
 
   useEffect(() => {
     if (theme === "dark") {
