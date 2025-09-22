@@ -24,7 +24,6 @@ Excalibur.js + React SRPG game with clean separation between game engine and UI 
 - `src/` - Main application source code
   - `actors/` - Excalibur Actor classes (units, tiles, effects)
   - `components/` - React components
-    - `scenes/` - Scene-specific UI components (main-scene-component.tsx)
     - `ui/` - shadcn/ui component library (buttons, forms, dialogs, etc.)
   - `constants/` - Game constants (isometric.ts for grid calculations)
   - `contexts/` - React contexts (EngineContext for game engine access)
@@ -32,7 +31,11 @@ Excalibur.js + React SRPG game with clean separation between game engine and UI 
   - `hooks/` - React hooks for state management
   - `lib/` - Core libraries and utilities
   - `routes/` - Page components and routes with TanStack Router
-  - `scenes/` - Excalibur Scene classes with game logic
+  - `scenes/` - Scene modules, each containing:
+    - `[scene-name]/` - Scene-specific folder (e.g., main-scene, settings-scene)
+      - `[scene-name].ts` - Excalibur Scene class with game logic
+      - `[scene-name]-component.tsx` - React component for scene UI
+      - `[scene-name]-state.ts` - Optional scene-specific state management
   - `sprite-sheets/` - Sprite sheet definitions
 - `public/` - Static assets
   - `map/` - Tiled map files (.json)
