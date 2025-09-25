@@ -1,6 +1,5 @@
 import { Scene, vec } from "excalibur"
 import { UnitActor } from "@/actors/unit-actor"
-import { getInitialPosition, ISOMETRIC } from "@/constants/isometric"
 import { resources } from "@/resources"
 
 export class MainScene extends Scene {
@@ -90,34 +89,9 @@ export class MainScene extends Scene {
     })
   }
 
-  public moveUnit(x: number, y: number): Promise<void> {
-    if (!this.unit) {
-      console.warn("Unit not found in scene")
-      return Promise.resolve()
-    }
-    console.log(`Moving unit to (${x}, ${y})`)
-    return this.unit.moveToPosition(x, y)
-  }
-
-  public moveUnitByGrid(gridX: number, gridY: number): Promise<void> {
-    if (!this.unit) {
-      console.warn("Unit not found in scene")
-      return Promise.resolve()
-    }
-    const currentPos = this.unit.pos
-    const newX = currentPos.x + gridX * ISOMETRIC.GRID_MOVE_X
-    const newY = currentPos.y + gridY * ISOMETRIC.GRID_MOVE_Y
-    return this.moveUnit(newX, newY)
-  }
-
-  public moveUnitToRight(): Promise<void> {
-    // アイソメトリック座標で右下に1グリッド移動
-    return this.moveUnitByGrid(1, 1)
-  }
-
-  public moveUnitToInitialPosition(): Promise<void> {
-    const initialPos = getInitialPosition()
-    return this.moveUnit(initialPos.x, initialPos.y)
+  public updateUnitPosition(x: number, y: number): void {
+    if (!this.unit) return
+    this.unit.actions.moveTo(x, y, 300)
   }
 
   public attackWithUnit(): void {

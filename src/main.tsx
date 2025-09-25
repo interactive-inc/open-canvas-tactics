@@ -2,15 +2,14 @@ import { createRouter, RouterProvider } from "@tanstack/react-router"
 import { Color, DisplayMode, Engine, Loader } from "excalibur"
 import React from "react"
 import { createRoot } from "react-dom/client"
-import { Provider } from "react-redux"
 import { resources } from "@/resources"
 import { MainScene } from "@/scenes/main-scene/main-scene"
 import { SettingsScene } from "@/scenes/settings-scene/settings-scene"
 import { EngineProvider } from "./components/engine-provider"
-import { store } from "./features/store"
 import { routeTree } from "./route-tree.gen"
 
 import "./index.css"
+import { StateProvider } from "@/components/state-provider"
 
 const canvas = document.querySelector<HTMLCanvasElement>("canvas")
 
@@ -60,10 +59,10 @@ const root = createRoot(container)
 
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
+    <StateProvider>
       <EngineProvider engine={engine}>
         <RouterProvider router={router} />
       </EngineProvider>
-    </Provider>
+    </StateProvider>
   </React.StrictMode>,
 )
