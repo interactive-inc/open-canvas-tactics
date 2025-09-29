@@ -1,7 +1,13 @@
 import type { Engine } from "excalibur"
 import { createContext } from "react"
+import type { RootState } from "@/reducers/root-state/root-state"
 
-type Value = Engine
+type EngineContextValue = {
+  engine: Engine
+  initialState: RootState
+}
+
+type Value = EngineContextValue
 
 const proxy = new Proxy({} as Value, {
   get() {

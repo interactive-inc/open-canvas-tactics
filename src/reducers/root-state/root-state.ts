@@ -4,6 +4,16 @@ export type RootState = {
     x: number
     y: number
   }
+  map: {
+    mapSample: {
+      columns: number
+      rows: number
+      tileWidth: number
+      tileHeight: number
+      screenOriginY: number
+      screenOffsetY: number
+    }
+  }
 }
 
 // export type RootState =

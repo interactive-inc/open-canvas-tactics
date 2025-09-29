@@ -1,10 +1,27 @@
 import { Actor, Animation, Vector, vec } from "excalibur"
-import { getInitialPosition } from "@/constants/isometric"
+import { toIsometricPosition } from "@/lib/to-isometric-position"
 import { characterSpriteSheet } from "@/sprite-sheets/character-sprite-sheet"
 
+type UnitActorProps = {
+  position: { x: number; y: number }
+  mapConfig?: {
+    screenOriginY?: number
+    screenOffsetY?: number
+  }
+}
+
 export class UnitActor extends Actor {
-  constructor() {
-    const initialPos = getInitialPosition()
+  constructor(props: UnitActorProps) {
+
+    const screenOriginY = props.mapConfig?.screenOriginY ?? 168
+    const screenOffsetY = props.mapConfig?.screenOffsetY ?? 34
+    const screenPos = toIsometricPosition(
+      props.position.x,
+      props.position.y,
+      screenOriginY,
+      screenOffsetY,
+    )
+    const initialPos = screenPos
 
     super({
       pos: new Vector(initialPos.x, initialPos.y),
@@ -15,6 +32,7 @@ export class UnitActor extends Actor {
 
     // スケール設定
     this.scale = vec(0.1875, 0.1875)
+    this.anchor = vec(0.5, 1) // 足元を基準点に設定
 
     // 歩行アニメーションを作成
     const walkAnimation = Animation.fromSpriteSheet(

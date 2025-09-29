@@ -1,8 +1,8 @@
 import { useContext } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { getInitialPosition, ISOMETRIC } from "@/constants/isometric"
 import { StateContext } from "@/contexts/state-context"
+import { toIsometricPosition } from "@/lib/to-isometric-position"
 import type { MainScene } from "@/scenes/main-scene/main-scene"
 
 type Props = {
@@ -18,46 +18,94 @@ export function MainSceneComponent(props: Props) {
   }
 
   const onMoveUp = () => {
-    const newX = state.unitPosition.x - ISOMETRIC.GRID_MOVE_X
-    const newY = state.unitPosition.y - ISOMETRIC.GRID_MOVE_Y
-    props.scene.updateUnitPosition(newX, newY)
+    // グリッド座標での新しい位置
+    const newGridX = state.unitPosition.x + 1
+    const newGridY = state.unitPosition.y
+
+    // スクリーン座標に変換（表示用）
+    const { x: screenX, y: screenY } = toIsometricPosition(
+      newGridX,
+      newGridY,
+      state.map.mapSample.screenOriginY,
+      state.map.mapSample.screenOffsetY,
+    )
+
+    props.scene.updateUnitPosition(screenX, screenY)
+
+    // StateにはGRID座標を保存
     dispatch({
       type: "SET_UNIT_POSITION",
-      x: newX,
-      y: newY,
+      x: newGridX,
+      y: newGridY,
     })
   }
 
   const onMoveDown = () => {
-    const newX = state.unitPosition.x + ISOMETRIC.GRID_MOVE_X
-    const newY = state.unitPosition.y + ISOMETRIC.GRID_MOVE_Y
-    props.scene.updateUnitPosition(newX, newY)
+    // グリッド座標での新しい位置
+    const newGridX = state.unitPosition.x - 1
+    const newGridY = state.unitPosition.y
+
+    // スクリーン座標に変換（表示用）
+    const { x: screenX, y: screenY } = toIsometricPosition(
+      newGridX,
+      newGridY,
+      state.map.mapSample.screenOriginY,
+      state.map.mapSample.screenOffsetY,
+    )
+
+    props.scene.updateUnitPosition(screenX, screenY)
+
+    // StateにはGRID座標を保存
     dispatch({
       type: "SET_UNIT_POSITION",
-      x: newX,
-      y: newY,
+      x: newGridX,
+      y: newGridY,
     })
   }
 
   const onMoveLeft = () => {
-    const newX = state.unitPosition.x - ISOMETRIC.GRID_MOVE_X
-    const newY = state.unitPosition.y + ISOMETRIC.GRID_MOVE_Y
-    props.scene.updateUnitPosition(newX, newY)
+    // グリッド座標での新しい位置
+    const newGridX = state.unitPosition.x
+    const newGridY = state.unitPosition.y - 1
+
+    // スクリーン座標に変換（表示用）
+    const { x: screenX, y: screenY } = toIsometricPosition(
+      newGridX,
+      newGridY,
+      state.map.mapSample.screenOriginY,
+      state.map.mapSample.screenOffsetY,
+    )
+
+    props.scene.updateUnitPosition(screenX, screenY)
+
+    // StateにはGRID座標を保存
     dispatch({
       type: "SET_UNIT_POSITION",
-      x: newX,
-      y: newY,
+      x: newGridX,
+      y: newGridY,
     })
   }
 
   const onMoveRight = () => {
-    const newX = state.unitPosition.x + ISOMETRIC.GRID_MOVE_X
-    const newY = state.unitPosition.y - ISOMETRIC.GRID_MOVE_Y
-    props.scene.updateUnitPosition(newX, newY)
+    // グリッド座標での新しい位置
+    const newGridX = state.unitPosition.x
+    const newGridY = state.unitPosition.y + 1
+
+    // スクリーン座標に変換（表示用）
+    const { x: screenX, y: screenY } = toIsometricPosition(
+      newGridX,
+      newGridY,
+      state.map.mapSample.screenOriginY,
+      state.map.mapSample.screenOffsetY,
+    )
+
+    props.scene.updateUnitPosition(screenX, screenY)
+
+    // StateにはGRID座標を保存
     dispatch({
       type: "SET_UNIT_POSITION",
-      x: newX,
-      y: newY,
+      x: newGridX,
+      y: newGridY,
     })
   }
 
@@ -66,9 +114,30 @@ export function MainSceneComponent(props: Props) {
   }
 
   const onCancel = () => {
-    const initialPos = getInitialPosition()
-    props.scene.updateUnitPosition(initialPos.x, initialPos.y)
-    dispatch({ type: "SET_UNIT_POSITION", x: initialPos.x, y: initialPos.y })
+    // リセット時のグリッド座標
+    const resetGridX = state.map.mapSample.columns % 2 === 0
+      ? state.map.mapSample.columns / 2
+      : Math.floor(state.map.mapSample.columns / 2) + 1
+    const resetGridY = state.map.mapSample.rows % 2 === 0
+      ? state.map.mapSample.rows / 2
+      : Math.floor(state.map.mapSample.rows / 2) + 1
+
+    // スクリーン座標に変換（表示用）
+    const { x: screenX, y: screenY } = toIsometricPosition(
+      resetGridX,
+      resetGridY,
+      state.map.mapSample.screenOriginY,
+      state.map.mapSample.screenOffsetY,
+    )
+
+    props.scene.updateUnitPosition(screenX, screenY)
+
+    // StateにはGRID座標を保存
+    dispatch({
+      type: "SET_UNIT_POSITION",
+      x: resetGridX,
+      y: resetGridY,
+    })
   }
 
   const onSettings = () => {

@@ -1,20 +1,21 @@
 import type { Engine } from "excalibur"
 import { EngineContext } from "@/contexts/engine-context"
-import type { MainSceneState } from "@/scenes/main-scene/main-scene-state"
+import type { RootState } from "@/reducers/root-state/root-state"
 
 type Props = {
   children: React.ReactNode
   engine: Engine
+  initialState: RootState
 }
 
 export function EngineProvider(props: Props) {
-  type RootState = {
-    level: number
-    scene: MainSceneState
+  const value = {
+    engine: props.engine,
+    initialState: props.initialState,
   }
 
   return (
-    <EngineContext.Provider value={props.engine}>
+    <EngineContext.Provider value={value}>
       {props.children}
     </EngineContext.Provider>
   )

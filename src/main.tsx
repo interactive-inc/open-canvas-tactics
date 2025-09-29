@@ -2,6 +2,7 @@ import { createRouter, RouterProvider } from "@tanstack/react-router"
 import { Color, DisplayMode, Engine, Loader } from "excalibur"
 import React from "react"
 import { createRoot } from "react-dom/client"
+import { INITIAL_STATE } from "@/constants/initial-state"
 import { resources } from "@/resources"
 import { MainScene } from "@/scenes/main-scene/main-scene"
 import { SettingsScene } from "@/scenes/settings-scene/settings-scene"
@@ -25,7 +26,8 @@ const engine = new Engine({
   antialiasing: false,
   backgroundColor: Color.fromHex("#ADD8E6"),
   scenes: {
-    [MainScene.name]: MainScene,
+    // ここにシーンを登録
+    [MainScene.name]: new MainScene(INITIAL_STATE),
     [SettingsScene.name]: SettingsScene,
   },
 })
@@ -60,7 +62,7 @@ const root = createRoot(container)
 root.render(
   <React.StrictMode>
     <StateProvider>
-      <EngineProvider engine={engine}>
+      <EngineProvider engine={engine} initialState={INITIAL_STATE}>
         <RouterProvider router={router} />
       </EngineProvider>
     </StateProvider>
