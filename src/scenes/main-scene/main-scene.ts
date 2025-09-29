@@ -1,28 +1,38 @@
 import { Scene, vec } from "excalibur"
 import { UnitActor } from "@/actors/unit-actor"
+import type { RootState } from "@/reducers/root-state/root-state"
 import { resources } from "@/resources"
 
 export class MainScene extends Scene {
   static name = "main" as const
-
   public unit: UnitActor | null = null
+  private initialState: RootState | undefined
+
+  constructor(initialState?: RootState) {
+    super()
+    this.initialState = initialState
+  }
+
+  setInitialState(state: RootState) {
+    this.initialState = state
+  }
 
   override onInitialize(): void {
     // マウスホイールでズーム機能
-    this.engine.input.pointers.on("wheel", (wheelEvent) => {
-      const camera = this.engine.currentScene.camera
-      const zoomSpeed = 0.05
-      const minZoom = 1.0
-      const maxZoom = 4.0
+    // this.engine.input.pointers.on("wheel", (wheelEvent) => {
+    //   const camera = this.engine.currentScene.camera
+    //   const zoomSpeed = 0.05
+    //   const minZoom = 1.0
+    //   const maxZoom = 4.0
 
-      if (wheelEvent.deltaY < 0) {
-        // ズームイン
-        camera.zoom = Math.min(camera.zoom + zoomSpeed, maxZoom)
-      } else {
-        // ズームアウト
-        camera.zoom = Math.max(camera.zoom - zoomSpeed, minZoom)
-      }
-    })
+    //   if (wheelEvent.deltaY < 0) {
+    //     // ズームイン
+    //     camera.zoom = Math.min(camera.zoom + zoomSpeed, maxZoom)
+    //   } else {
+    //     // ズームアウト
+    //     camera.zoom = Math.max(camera.zoom - zoomSpeed, minZoom)
+    //   }
+    // })
 
     // マウスドラッグでカメラ移動機能
     let isDragging = false
@@ -62,10 +72,10 @@ export class MainScene extends Scene {
     })
 
     // カメラの初期設定
-    const mapColumns = 5 // マップの列数
-    const mapRows = 5 // マップの行数
-    const tileWidth = 32 // タイルの幅
-    const tileHeight = 16 // タイルの高さ（アイソメトリック用）
+    const mapColumns = this.initialState?.map.mapSample.columns || 5 // マップの列数
+    const mapRows = this.initialState?.map.mapSample.rows || 5 // マップの行数
+    const tileWidth = this.initialState?.map.mapSample.tileWidth || 32 // タイルの幅
+    const tileHeight = this.initialState?.map.mapSample.tileHeight || 16 // タイルの高さ（アイソメトリック用）
 
     // アイソメトリックマップの中央座標を計算
     const mapPixelWidth =
@@ -76,16 +86,28 @@ export class MainScene extends Scene {
     // カメラをマップの中央に配置
     this.engine.currentScene.camera.pos.x = mapPixelWidth / 2
     this.engine.currentScene.camera.pos.y = mapPixelHeight * 2
-    this.engine.currentScene.camera.zoom = 1.5
+    this.engine.currentScene.camera.zoom = 3
 
     // UnitActorを作成してシーンに追加
-    this.unit = new UnitActor()
+    // initialStateがあればその位置を使用、なければデフォルト位置
+    const unitPosition = this.initialState?.unitPosition || { x: 1, y: 1 }
+    const mapConfig = this.initialState?.map.mapSample
+      ? {
+          screenOriginY: this.initialState.map.mapSample.screenOriginY,
+          screenOffsetY: this.initialState.map.mapSample.screenOffsetY,
+        }
+      : undefined
+
+    this.unit = new UnitActor({
+      position: unitPosition,
+      mapConfig: mapConfig,
+    })
 
     this.add(this.unit)
 
     // TiledResourceを最後に追加
     resources.tiledMapResource.addToScene(this.engine.currentScene, {
-      pos: vec(0, 0),
+      pos: vec(0, 0), // ここの値は変えても意味がない
     })
   }
 

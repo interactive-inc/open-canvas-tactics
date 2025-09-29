@@ -11,7 +11,8 @@ export const Route = createFileRoute("/")({
 })
 
 function Component() {
-  const engine = useContext(EngineContext)
+  const engineContext = useContext(EngineContext)
+  const engine = engineContext.engine
 
   const scene = engine.currentScene
 
